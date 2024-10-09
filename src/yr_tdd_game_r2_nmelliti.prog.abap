@@ -28,18 +28,25 @@ ENDCLASS.
 
 CLASS lcl_russian_peasant_mult IMPLEMENTATION.
 
-
   METHOD multiply.
+    DATA(left) = left_operand.
+    DATA(right) = right_operand.
 
+    WHILE left >= 1.
+      IF left MOD 2 <> 0.
+        result += right.
+      ENDIF.
+      left = divide_by_2( left ).
+      right = multiply_by_2( right ).
+    ENDWHILE.
   ENDMETHOD.
-
 
   METHOD divide_by_2.
     result = value DIV 2.
   ENDMETHOD.
 
   METHOD multiply_by_2.
-    result = 4.
+    result = value * 2.
   ENDMETHOD.
 
 ENDCLASS.
@@ -59,7 +66,8 @@ CLASS ltc_russian_peasant_mult DEFINITION FINAL FOR TESTING
       divide_3_by_2 FOR TESTING,
       divide_4_by_2 FOR TESTING,
       divide_47_by_2 FOR TESTING,
-      multiply_2_by_2 FOR TESTING.
+      multiply_2_by_2 FOR TESTING,
+      multiply_42_by_2 FOR TESTING.
 ENDCLASS.
 
 CLASS ltc_russian_peasant_mult IMPLEMENTATION.
@@ -90,6 +98,10 @@ CLASS ltc_russian_peasant_mult IMPLEMENTATION.
 
   METHOD multiply_2_by_2.
     cl_abap_unit_assert=>assert_equals( exp = 4 act = cut->multiply_by_2( 2 ) ).
+  ENDMETHOD.
+
+  METHOD multiply_42_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 84 act = cut->multiply_by_2( 42 ) ).
   ENDMETHOD.
 
 ENDCLASS.
