@@ -1,29 +1,39 @@
 REPORT yr_tdd_game_r2_nmelliti.
 
-class lcl_russian_peasant_mult definition final.
+CLASS lcl_russian_peasant_mult DEFINITION FINAL.
 
-  public section.
+  PUBLIC SECTION.
     METHODS multiply
       IMPORTING
         left_operand  TYPE i
         right_operand TYPE i
       RETURNING
-        value(result) TYPE i.
+        VALUE(result) TYPE i.
+    METHODS divide_by_2
+      IMPORTING
+        value         TYPE i
+      RETURNING
+        VALUE(result) TYPE i.
 
-  protected section.
+  PROTECTED SECTION.
 
-  private section.
+  PRIVATE SECTION.
 
-endclass.
+ENDCLASS.
 
-class lcl_russian_peasant_mult implementation.
+CLASS lcl_russian_peasant_mult IMPLEMENTATION.
 
 
   METHOD multiply.
 
   ENDMETHOD.
 
-endclass.
+
+  METHOD divide_by_2.
+    result = value DIV 2.
+  ENDMETHOD.
+
+ENDCLASS.
 
 
 
@@ -35,9 +45,12 @@ CLASS ltc_russian_peasant_mult DEFINITION FINAL FOR TESTING
     DATA cut TYPE REF TO lcl_russian_peasant_mult.
     METHODS:
       setup,
-      acceptance_test FOR TESTING.
+      acceptance_test FOR TESTING,
+      divide_2_by_2 FOR TESTING,
+      divide_3_by_2 FOR TESTING,
+      divide_4_by_2 FOR TESTING,
+      divide_47_by_2 FOR TESTING.
 ENDCLASS.
-
 
 CLASS ltc_russian_peasant_mult IMPLEMENTATION.
   METHOD setup.
@@ -48,4 +61,21 @@ CLASS ltc_russian_peasant_mult IMPLEMENTATION.
     cl_abap_unit_assert=>assert_equals( exp = 1974 act = cut->multiply( left_operand = 47
                                                                          right_operand = 42 ) ).
   ENDMETHOD.
+
+  METHOD divide_2_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 1 act = cut->divide_by_2( 2 ) ).
+  ENDMETHOD.
+
+  METHOD divide_3_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 1 act = cut->divide_by_2( 3 ) ).
+  ENDMETHOD.
+
+  METHOD divide_4_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 2 act = cut->divide_by_2( 4 ) ).
+  ENDMETHOD.
+
+  METHOD divide_47_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 23 act = cut->divide_by_2( 47 ) ).
+  ENDMETHOD.
+
 ENDCLASS.
