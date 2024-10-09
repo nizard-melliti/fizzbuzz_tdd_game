@@ -27,6 +27,7 @@ CLASS lcl_russian_peasant_mult DEFINITION FINAL.
 
   PRIVATE SECTION.
     CONSTANTS russian_limit TYPE i VALUE 1.
+    CONSTANTS russian_magic_number TYPE i VALUE 2.
     	METHODS:
       	operand_for_next_iteration CHANGING left  TYPE i
                                           right TYPE i,
@@ -63,15 +64,15 @@ CLASS lcl_russian_peasant_mult IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD divide_by_2.
-    result = value DIV 2.
+    result = value DIV russian_magic_number.
   ENDMETHOD.
 
   METHOD multiply_by_2.
-    result = value * 2.
+    result = value * russian_magic_number.
   ENDMETHOD.
 
   METHOD is_odd.
-    result = boolC( value MOD 2 <> 0 ).
+    result = boolC( value MOD russian_magic_number <> 0 ).
   ENDMETHOD.
 ENDCLASS.
 
