@@ -3,22 +3,21 @@ REPORT yr_tdd_game_r3_nmelliti.
 CLASS lcl_russian_peasant DEFINITION FINAL.
 
   PUBLIC SECTION.
-    METHODS multiply
-      IMPORTING
-        left_operand  TYPE i
-        right_operand TYPE i
-      RETURNING
-        VALUE(result) TYPE i.
-    METHODS divide_by_2
-      IMPORTING
-        value         TYPE i
-      RETURNING
-        VALUE(result) TYPE i.
-    METHODS multiply_by_2
-      IMPORTING
-        value         TYPE i
-      RETURNING
-        VALUE(result) TYPE i.
+
+    METHODS:
+      multiply IMPORTING
+                 left_operand  TYPE i
+                 right_operand TYPE i
+               RETURNING
+                 VALUE(result) TYPE i,
+      divide_by_2 IMPORTING
+                    value         TYPE i
+                  RETURNING
+                    VALUE(result) TYPE i,
+      multiply_by_2 IMPORTING
+                      value         TYPE i
+                    RETURNING
+                      VALUE(result) TYPE i.
 
   PRIVATE SECTION.
     CONSTANTS: value_to_stop TYPE i VALUE 1,
@@ -26,27 +25,27 @@ CLASS lcl_russian_peasant DEFINITION FINAL.
     METHODS :
       is_not_crossed_out IMPORTING value         TYPE i
                          RETURNING VALUE(result) TYPE abap_bool,
-      prepare_data_next_iteration CHANGING left  TYPE i
-                                           right TYPE i.
+      prepare_data_next_iteration CHANGING left_value  TYPE i
+                                           right_value TYPE i.
 ENDCLASS.
 
 CLASS lcl_russian_peasant IMPLEMENTATION.
   METHOD multiply.
-    DATA(left) = left_operand.
-    DATA(right) = right_operand.
+    DATA(left_value) = left_operand.
+    DATA(right_value) = right_operand.
 
-    WHILE left >= value_to_stop.
-      IF is_not_crossed_out( left ).
-        result += right.
+    WHILE left_value >= value_to_stop.
+      IF is_not_crossed_out( left_value ).
+        result += right_value.
       ENDIF.
-      prepare_data_next_iteration( CHANGING left = left
-                                            right = right ).
+      prepare_data_next_iteration( CHANGING left_value = left_value
+                                            right_value = right_value ).
     ENDWHILE.
   ENDMETHOD.
 
   METHOD prepare_data_next_iteration.
-    left = divide_by_2( left ).
-    right = multiply_by_2( right ).
+    left_value = divide_by_2( left_value ).
+    right_value = multiply_by_2( right_value ).
   ENDMETHOD.
 
   METHOD divide_by_2.
