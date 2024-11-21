@@ -29,7 +29,16 @@ ENDCLASS.
 CLASS lcl_russian_peasant IMPLEMENTATION.
 
   METHOD multiply.
+    DATA(left) = left_operand.
+    DATA(right) = right_operand.
 
+    WHILE left >= 1.
+      IF left MOD 2 <> 0.
+        result += right.
+      ENDIF.
+      left = divide_by_2( left ).
+      right = multiply_by_2( right ).
+    ENDWHILE.
   ENDMETHOD.
 
   METHOD divide_by_2.
@@ -73,7 +82,7 @@ CLASS ltc_russian_peasant IMPLEMENTATION.
 
   METHOD acceptance_test_15_by_2.
     cl_abap_unit_assert=>assert_equals( exp = 30
-                                        act = cut->multiply( left_operand = 30 right_operand = 2 ) ).
+                                        act = cut->multiply( left_operand = 15 right_operand = 2 ) ).
   ENDMETHOD.
 
   METHOD divide_2_by_2.
