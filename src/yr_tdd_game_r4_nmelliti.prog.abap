@@ -5,7 +5,8 @@ CLASS lcl_fizzbuzz_value DEFINITION FINAL.
   PUBLIC SECTION.
     METHODS :
       constructor IMPORTING value TYPE i,
-      get RETURNING VALUE(result) TYPE i.
+      get RETURNING VALUE(result) TYPE i,
+      is_divided_by_3 RETURNING VALUE(result) TYPE abap_bool.
   PRIVATE SECTION.
     DATA value TYPE i.
 
@@ -18,6 +19,10 @@ CLASS lcl_fizzbuzz_value IMPLEMENTATION.
 
   METHOD get.
     result = value.
+  ENDMETHOD.
+
+  METHOD is_divided_by_3.
+
   ENDMETHOD.
 ENDCLASS.
 
@@ -56,6 +61,7 @@ CLASS ltc_fizzbuzz DEFINITION FINAL FOR TESTING
       four_is_4 FOR TESTING,
       five_is_buzz FOR TESTING,
       fifteen_is_fizzbuzz FOR TESTING,
+      three_is_divided_by_3 FOR TESTING,
       fizzbuzz_value
         IMPORTING
           value         TYPE REF TO lcl_fizzbuzz_value
@@ -90,4 +96,9 @@ CLASS ltc_fizzbuzz IMPLEMENTATION.
   METHOD fifteen_is_fizzbuzz.
     cl_abap_unit_assert=>assert_equals( exp = 'FizzBuzz' act = fizzbuzz_value( NEW lcl_fizzbuzz_value( 15 ) ) ).
   ENDMETHOD.
+
+  METHOD three_is_divided_by_3.
+    cl_abap_unit_assert=>assert_true( NEW lcl_fizzbuzz_value( 3 )->is_divided_by_3( ) ).
+  ENDMETHOD.
+
 ENDCLASS.
