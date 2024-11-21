@@ -20,36 +20,46 @@ CLASS lcl_russian_peasant DEFINITION FINAL.
       RETURNING
         VALUE(result) TYPE i.
 
-  PROTECTED SECTION.
-
   PRIVATE SECTION.
-
+    CONSTANTS: value_to_stop TYPE i VALUE 1,
+               russian_value TYPE i VALUE 2.
+    METHODS :
+      is_not_crossed_out IMPORTING value         TYPE i
+                         RETURNING VALUE(result) TYPE abap_bool,
+      prepare_data_next_iteration CHANGING left  TYPE i
+                                           right TYPE i.
 ENDCLASS.
 
 CLASS lcl_russian_peasant IMPLEMENTATION.
-
   METHOD multiply.
     DATA(left) = left_operand.
     DATA(right) = right_operand.
 
-    WHILE left >= 1.
-      IF left MOD 2 <> 0.
+    WHILE left >= value_to_stop.
+      IF is_not_crossed_out( left ).
         result += right.
       ENDIF.
-      left = divide_by_2( left ).
-      right = multiply_by_2( right ).
+      prepare_data_next_iteration( CHANGING left = left
+                                            right = right ).
     ENDWHILE.
   ENDMETHOD.
 
-  METHOD divide_by_2.
-    result = value DIV 2.
+  METHOD prepare_data_next_iteration.
+    left = divide_by_2( left ).
+    right = multiply_by_2( right ).
   ENDMETHOD.
 
+  METHOD divide_by_2.
+    result = value DIV russian_value.
+  ENDMETHOD.
 
   METHOD multiply_by_2.
-    result = value * 2.
+    result = value * russian_value.
   ENDMETHOD.
 
+  METHOD is_not_crossed_out.
+    result = boolC( value MOD 2 <> 0 ).
+  ENDMETHOD.
 ENDCLASS.
 
 CLASS ltc_russian_peasant DEFINITION FINAL FOR TESTING
