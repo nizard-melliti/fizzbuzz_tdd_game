@@ -31,7 +31,7 @@ CLASS ltc_fizzbuzz DEFINITION FINAL FOR TESTING
     DATA cut TYPE REF TO lcl_fizzbuzz.
     METHODS:
       setup,
-      three_is_fizz FOR TESTING RAISING cx_static_check.
+      three_is_fizz FOR TESTING.
 ENDCLASS.
 
 CLASS ltc_fizzbuzz IMPLEMENTATION.
