@@ -14,6 +14,11 @@ CLASS lcl_russian_peasant DEFINITION FINAL.
         value         TYPE i
       RETURNING
         VALUE(result) TYPE i.
+    METHODS multiply_by_2
+      IMPORTING
+        value         TYPE i
+      RETURNING
+        VALUE(result) TYPE i.
 
   PROTECTED SECTION.
 
@@ -31,10 +36,12 @@ CLASS lcl_russian_peasant IMPLEMENTATION.
     result = value DIV 2.
   ENDMETHOD.
 
+
+  METHOD multiply_by_2.
+    result = value * 2.
+  ENDMETHOD.
+
 ENDCLASS.
-
-
-
 
 CLASS ltc_russian_peasant DEFINITION FINAL FOR TESTING
   DURATION SHORT
@@ -48,7 +55,10 @@ CLASS ltc_russian_peasant DEFINITION FINAL FOR TESTING
       acceptance_test_15_by_2 FOR TESTING,
       divide_2_by_2 FOR TESTING,
       divide_3_by_2 FOR TESTING,
-      divide_4_by_2 FOR TESTING.
+      divide_4_by_2 FOR TESTING,
+      multiply_2_by_2 FOR TESTING,
+      multiply_3_by_2 FOR TESTING,
+      multiply_10_by_2 FOR TESTING.
 ENDCLASS.
 
 CLASS ltc_russian_peasant IMPLEMENTATION.
@@ -76,6 +86,18 @@ CLASS ltc_russian_peasant IMPLEMENTATION.
 
   METHOD divide_4_by_2.
     cl_abap_unit_assert=>assert_equals( exp = 2 act = cut->divide_by_2( 4 ) ).
+  ENDMETHOD.
+
+  METHOD multiply_2_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 4 act = cut->multiply_by_2( 2 ) ).
+  ENDMETHOD.
+
+  METHOD multiply_3_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 6 act = cut->multiply_by_2( 3 ) ).
+  ENDMETHOD.
+
+  METHOD multiply_10_by_2.
+    cl_abap_unit_assert=>assert_equals( exp = 20 act = cut->multiply_by_2( 10 ) ).
   ENDMETHOD.
 
 ENDCLASS.
